@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
           messages: [
             {
               "role": "system",
-              "content": "Generate a thoughtful gift idea for a husband to give his wife as an apology after their argument. Consider these details: Argument reason - '${reasonForArgument}', Age category - '${ageCategory}', Budget - '${budgetCategory}', Fight severity - '${fightSeverity}'. Provide a brief and witty explanation for the choice but keep your response concise and short."
+              "content": "Generate a thoughtful gift idea for a husband to give his wife as an apology after their argument, considering the following details provided by the husband: Argument reason - '${reasonForArgument}', Age category - '${ageCategory}', Budget for gift- '${budgetCategory}', Fight severity - '${fightSeverity}'. Provide a brief and witty explanation for the gift recommendation, and if any budget other than Luxury is given in the input, ensure to reprimand the husband in your response and emphasise that his wife's happiness should not have a budget. Keep your response concise and short."
             },
             {
               "role": "user",

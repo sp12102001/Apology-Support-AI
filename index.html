@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gift Idea Generator</title>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('giftForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Gather user input from the form
+    const reasonForArgument = document.getElementById('reason').value;
+    const ageCategory = document.getElementById('ageCategory').value;
+    const budgetCategory = document.getElementById('budgetCategory').value;
+    const fightSeverity = document.getElementById('fightSeverity').value;
+
+    // Call the OpenAI API with the user's input
+    generateGiftIdeas(reasonForArgument, ageCategory, budgetCategory, fightSeverity);
+  });
+
+  async function generateGiftIdeas(reasonForArgument, ageCategory, budgetCategory, fightSeverity) {
+    try {
+      const response = await fetch('https://api.openai.com/v1/engines/gpt-3.5-turbo/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Replace with your actual API key
+        },
+        body: JSON.stringify({
+          prompt: generatePrompt(reasonForArgument, ageCategory, budgetCategory, fightSeverity),
+          temperature: 0.7,
+          max_tokens: 150,
+          top_p: 1,
+          frequency_penalty: 0.5
+        })
+      });
+      const data = await response.json();
+      displayGiftIdeas(data.choices[0].text);
+    } catch (error) {
+      console.error('There was an error retrieving the gift ideas:', error);
+    }
+  }
+
+  function generatePrompt(reason, ageCategory, budget, severity) {
+    return `Based on the following details, please suggest three thoughtful gift ideas with a one-sentence explanation for each. 
+    Reason for argument: ${reason}
+    Age category: ${ageCategory}
+    Budget: ${budget}
+    Severity of fight: ${severity}`;
+  }
+
+  function displayGiftIdeas(giftIdeas) {
+    document.getElementById('giftIdeas').innerText = giftIdeas;
+  }
+});
+</script>
+</head>
+<body>
+    <h1>Gift Idea Generator for Apologies</h1>
+    <form id="giftForm">
+        <label for="reason">Reason for Argument:</label>
+        <input type="text" id="reason" name="reason" required><br><br>
+
+        <label for="ageCategory">Age Category:</label>
+        <select id="ageCategory" name="ageCategory" required>
+            <option value="Adults">Adults</option>
+            <option value="Middle-Aged">Middle-Aged</option>
+            <option value="Seniors">Seniors</option>
+        </select><br><br>
+
+        <label for="budgetCategory">Budget Category:</label>
+        <select id="budgetCategory" name="budgetCategory" required>
+            <option value="Economy">Economy</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Premium">Premium</option>
+            <option value="Luxury">Luxury</option>
+        </select><br><br>
+
+        <label for="fightSeverity">Severity of the Fight:</label>
+        <select id="fightSeverity" name="fightSeverity" required>
+            <option value="Mild">Mild</option>
+            <option value="Serious">Serious</option>
+            <option value="Grave">Grave</option>
+        </select><br><br>
+
+        <button type="submit">Generate Gift Ideas</button>
+    </form>
+
+    <div id="giftIdeas"></div>
+</body>
+</html>

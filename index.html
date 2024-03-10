@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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' // Securely handled API key
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`        
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",

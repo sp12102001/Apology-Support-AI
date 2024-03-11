@@ -1,93 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>For Husbands Who Still Don't Get It</title> 
-  <h2>Because "Sorry" Sounds Better with a Bow on It</h2> 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('giftForm').addEventListener('submit', function(event) {
-    event.preventDefault(); 
-
-    const reasonForArgument = document.getElementById('reason').value;
-    const ageCategory = document.getElementById('ageCategory').value;
-    const budgetCategory = document.getElementById('budgetCategory').value;
-    const fightSeverity = document.getElementById('fightSeverity').value;
-
-    // Simple validation (can be improved as needed)
-    if(reasonForArgument && ageCategory && budgetCategory && fightSeverity) {
-      generateGiftIdeas(reasonForArgument, ageCategory, budgetCategory, fightSeverity);
-    } else {
-      alert('Please fill in all fields.');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Husbands Who Still Don't Get It</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
     }
-  });
 
-  async function generateGiftIdeas(reasonForArgument, ageCategory, budgetCategory, fightSeverity) {
-    try {
-      const response = await fetch('https://worker-dawn-truth-f0c3.sanjana-prabhakar09.workers.dev/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          reasonForArgument,
-          ageCategory,
-          budgetCategory,
-          fightSeverity,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const giftIdea = await response.text();
-      displayGiftIdeas(giftIdea);
-    } catch (error) {
-      console.error('Error retrieving the gift ideas:', error);
-      displayGiftIdeas('Sorry, there was a problem retrieving the gift ideas.');
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
     }
-  }
 
-  function displayGiftIdeas(giftIdeas) {
-    document.getElementById('giftIdeas').innerText = giftIdeas;
-  }
-});
-</script>
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
 
+    h2 {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    #giftIdeas {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
     <h1>For Husbands Who Still Don't Get It</h1>
+    <h2>Because "Sorry" Sounds Better with a Bow on It</h2>
     <form id="giftForm">
-        <label for="reason">Reason for Argument:</label>
-        <input type="text" id="reason" name="reason" required><br><br>
+      <label for="reason">Reason for Argument:</label>
+      <input type="text" id="reason" name="reason" required>
 
-        <label for="ageCategory">Age Category:</label>
-        <select id="ageCategory" name="ageCategory" required>
-            <option value="Adults">Adults</option>
-            <option value="Middle-Aged">Middle-Aged</option>
-            <option value="Seniors">Seniors</option>
-        </select><br><br>
+      <label for="ageCategory">Age Category:</label>
+      <select id="ageCategory" name="ageCategory" required>
+        <option value="Adults">Adults</option>
+        <option value="Middle-Aged">Middle-Aged</option>
+        <option value="Seniors">Seniors</option>
+      </select>
 
-        <label for="budgetCategory">Budget Category:</label>
-        <select id="budgetCategory" name="budgetCategory" required>
-            <option value="Economy">Economy</option>
-            <option value="Moderate">Moderate</option>
-            <option value="Premium">Premium</option>
-            <option value="Luxury">Luxury</option>
-        </select><br><br>
+      <label for="budgetCategory">Budget Category:</label>
+      <select id="budgetCategory" name="budgetCategory" required>
+        <option value="Economy">Economy</option>
+        <option value="Moderate">Moderate</option>
+        <option value="Premium">Premium</option>
+        <option value="Luxury">Luxury</option>
+      </select>
 
-        <label for="fightSeverity">Severity of the Fight:</label>
-        <select id="fightSeverity" name="fightSeverity" required>
-            <option value="Mild">Mild</option>
-            <option value="Serious">Serious</option>
-            <option value="Grave">Grave</option>
-        </select><br><br>
+      <label for="fightSeverity">Severity of the Fight:</label>
+      <select id="fightSeverity" name="fightSeverity" required>
+        <option value="Mild">Mild</option>
+        <option value="Serious">Serious</option>
+        <option value="Grave">Grave</option>
+      </select>
 
-        <button type="submit">Generate Gift Ideas</button>
+      <button type="submit">Generate Gift Ideas</button>
     </form>
 
     <div id="giftIdeas"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('giftForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const reasonForArgument = document.getElementById('reason').value;
+        const ageCategory = document.getElementById('ageCategory').value;
+        const budgetCategory = document.getElementById('budgetCategory').value;
+        const fightSeverity = document.getElementById('fightSeverity').value;
+
+        // Simple validation (can be improved as needed)
+        if(reasonForArgument && ageCategory && budgetCategory && fightSeverity) {
+          generateGiftIdeas(reasonForArgument, ageCategory, budgetCategory, fightSeverity);
+        } else {
+          alert('Please fill in all fields.');
+        }
+      });
+
+      async function generateGiftIdeas(reasonForArgument, ageCategory, budgetCategory, fightSeverity) {
+        try {
+          const response = await fetch('https://production.worker-dawn-truth-f0c3.sp12.workers.dev/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              reasonForArgument,
+              ageCategory,
+              budgetCategory,
+              fightSeverity,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const giftIdea = await response.text();
+          displayGiftIdeas(giftIdea);
+        } catch (error) {
+          console.error('Error retrieving the gift ideas:', error);
+          displayGiftIdeas('Sorry, there was a problem retrieving the gift ideas.');
+        }
+      }
+
+      function displayGiftIdeas(giftIdeas) {
+        document.getElementById('giftIdeas').innerText = giftIdeas;
+      }
+    });
+  </script>
 </body>
 </html>
